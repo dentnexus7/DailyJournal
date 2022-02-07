@@ -1,7 +1,7 @@
 {
-  "name": "gregg-starter-kit",
+  "name": "daily-journal",
   "version": "1.0.0",
-  "description": "Gregg's Starter Kit",
+  "description": "Daily Journal",
   "author": "dentnexus7@gmail.com",
   "main": "truffle-config.js",
   "license": "ISC",
