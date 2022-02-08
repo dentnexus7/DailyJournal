@@ -2,7 +2,7 @@ import './App.css';
 import logo from '../logo.png';
 import React, { Component } from 'react';
 import Web3 from 'web3';
-// import <ContractName> from '../abis/<ContractName>.json';
+import DailyJournal from '../abis/DailyJournal.json';
 
 class App extends Component {
 
@@ -34,13 +34,13 @@ class App extends Component {
     const networkId = await web3.eth.net.getId();
 
     // Load Contracts
-    // const <Contract>Data = <Contract>.networks[networkdId];
-    // if(<Contract>Data) {
-    //   const <ContractInstanceName> = new web3.eth.Contract(<Contract>.abi, <Contract>.address);
-    //   this.setState ({ <ContractInstanceName>: <ContractInstanceName>});
-    // } else {
-    //   window.alert("<Contract> contract not deployed to detected network");
-    // }
+    const dailyJournalData = DailyJournal.networks[networkId];
+    if(dailyJournalData) {
+      const dailyJournal = new web3.eth.Contract(DailyJournal.abi, dailyJournalData.address);
+      this.setState ({ dailyJournal });
+    } else {
+      window.alert("DailyJournal contract not deployed to detected network");
+    }
 
     // Blockchain Data has been loaded and page can now be rendered
     this.setState({ loading: false });
@@ -50,8 +50,8 @@ class App extends Component {
     super(props)
     this.state = {
       account: '',
-      loading: true
-      // contract: ''
+      loading: true,
+      dailyJournal: null
     }
   }
 
@@ -59,7 +59,9 @@ class App extends Component {
     let content;
     if(this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
-    } // else - render content
+    } else {
+      content = this.state.dailyJournal;
+    }
 
     return (
       <div>
