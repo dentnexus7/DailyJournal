@@ -2,6 +2,8 @@ import './App.css';
 import logo from '../logo.png';
 import React, { Component } from 'react';
 import Web3 from 'web3';
+import Navbar from './Navbar';
+import Main from './Main';
 import DailyJournal from '../abis/DailyJournal.json';
 
 class App extends Component {
@@ -38,6 +40,11 @@ class App extends Component {
     if(dailyJournalData) {
       const dailyJournal = new web3.eth.Contract(DailyJournal.abi, dailyJournalData.address);
       this.setState ({ dailyJournal });
+      console.log(this.state.dailyJournal);
+      const entryCount = await dailyJournal.methods.entryCount().call();
+      console.log(entryCount);
+      this.setState({ entryCount });
+      console.log(this.state.entryCount);
     } else {
       window.alert("DailyJournal contract not deployed to detected network");
     }
@@ -51,7 +58,8 @@ class App extends Component {
     this.state = {
       account: '',
       loading: true,
-      dailyJournal: null
+      dailyJournal: null,
+      entryCount: ''
     }
   }
 
@@ -60,23 +68,24 @@ class App extends Component {
     if(this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
     } else {
-      content = this.state.dailyJournal;
+      content = <Main dailyJournal={this.state.dailyJournal} />
     }
 
     return (
       <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <h1 className="navbar-brand col-sm-3 col-md-2 mr-0">Gregg's Starter Kit</h1>
-        </nav>
+        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
+              {/* <div className="content mr-auto ml-auto">
                 <br/>
                 <img src={logo} className="App-logo" alt="logo" />
                 <h1>Gregg's Starter Kit</h1>
                 <p>Edit <code>src/components/App.js</code> and save to reload.</p>
-              </div>
+              </div> */}
+
+              {content}
+
             </main>
           </div>
         </div>
