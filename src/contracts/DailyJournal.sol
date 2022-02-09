@@ -10,23 +10,23 @@ contract DailyJournal is Ownable {
 
   struct Entry {
     uint256 id;
-    uint256 date;
-    uint256 startTime;
-    uint256 endTime;
+    string date;
+    string startTime;
+    string endTime;
     string description;
   }
 
-  event EntryCreated(uint256 id, uint256 date, uint256 startTime, uint256 endTime, string description);
+  event EntryCreated(uint256 id, string date, string startTime, string endTime, string description);
 
-  constructor(uint256 _date, uint256 _startTime, uint256 _endTime, string memory _description) {
+  constructor(string memory _date, string memory _startTime, string memory _endTime, string memory _description) {
     createEntry(_date, _startTime, _endTime, _description);
   }
 
-  function createEntry(uint256 _date, uint256 _startTime, uint256 _endTime, string memory _description) public onlyOwner() {
-    require(_date > 0, 'DailyJournal: date is not > 0');
-    require(_startTime > 0, 'DailyJournal: startTime is not > 0');
-    require(_endTime > 0, 'DailyJournal: endTime is not > 0');
-    //require(!_description == '', 'DailyJournal: date is not > 0');
+  function createEntry(string memory _date, string memory _startTime, string memory _endTime, string memory _description) public onlyOwner() {
+    require(bytes(_date).length > 0, 'DailyJournal: date is empty string');
+    require(bytes(_startTime).length > 0, 'DailyJournal: startTime is empty string');
+    require(bytes(_endTime).length > 0, 'DailyJournal: endTime is empty string');
+    require(bytes(_description).length > 0, 'DailyJournal: date is empty string');
 
     entryCount++;
     entries[entryCount] = Entry(entryCount, _date, _startTime, _endTime, _description);

@@ -41,9 +41,9 @@ contract('DailyJournal', async([deployer, account2]) => {
     it('has correct first entry', async() => {
       const entry = await contract.entries(1);
       assert.equal(entry.id, 1);
-      assert.equal(entry.date, 1);
-      assert.equal(entry.startTime, 2);
-      assert.equal(entry.endTime, 3);
+      assert.equal(entry.date, "Tuesday January 4th, 2022");
+      assert.equal(entry.startTime, "5:45am");
+      assert.equal(entry.endTime, "10am");
       assert.equal(entry.description, "DailyJournal has been deployed!");
     });
   });
@@ -52,7 +52,7 @@ contract('DailyJournal', async([deployer, account2]) => {
     let result, entryCount;
 
     before(async() => {
-      result = await contract.createEntry(9, 8, 7, "Entry");
+      result = await contract.createEntry("Tuesday January 4th, 2022", "10am", "3pm", "Added Udemy Course code repositories to my Github Account");
       entryCount = await contract.entryCount();
     });
 
@@ -64,34 +64,37 @@ contract('DailyJournal', async([deployer, account2]) => {
         //console.log(result.logs);
         const event = result.logs[0].args;
         assert.equal(event.id.toNumber(), entryCount.toNumber());
-        assert.equal(event.date, 9);
-        assert.equal(event.startTime, 8);
-        assert.equal(event.endTime, 7);
-        assert.equal(event.description, "Entry");
+        assert.equal(event.date, "Tuesday January 4th, 2022");
+        assert.equal(event.startTime, "10am");
+        assert.equal(event.endTime, "3pm");
+        assert.equal(event.description, "Added Udemy Course code repositories to my Github Account");
       });
 
       it('failure', async() => {
         // FAILURE: Only owner can create entries
-        await contract.createEntry(1, 2, 3, "Entry", { from: account2}).should.be.rejected;
+        await contract.createEntry("Test", "Test", "Test", "Entry", { from: account2}).should.be.rejected;
 
-        // FAILURE: Date must be greater than 0
-        await contract.createEntry(0, 2 ,3, "Entry").should.be.rejected;
+        // FAILURE: Date cannot be empty string
+        await contract.createEntry("", "Test", "Test", "Entry").should.be.rejected;
 
-        // FAILURE: startTime must be greater than 0
-        await contract.createEntry(1, 0 ,3, "Entry").should.be.rejected;
+        // FAILURE: startTime cannot be empty string
+        await contract.createEntry("Test", "", "Test", "Entry").should.be.rejected;
 
-        // FAILURE: endTime must be greater than 0
-        await contract.createEntry(1, 2 ,0, "Entry").should.be.rejected;
+        // FAILURE: endTime cannot be empty string
+        await contract.createEntry("Test", "Test", "", "Entry").should.be.rejected;
+
+        // FAILURE: description cannot be empty string
+        await contract.createEntry("Test", "Test", "Test", "").should.be.rejected;
       });
     });
 
     it('lists entries', async () => {
       const entry = await contract.entries(entryCount);
       assert.equal(entry.id.toNumber(), entryCount.toNumber());
-      assert.equal(entry.date, 9);
-      assert.equal(entry.startTime, 8);
-      assert.equal(entry.endTime, 7);
-      assert.equal(entry.description, 'Entry');
+      assert.equal(entry.date, "Tuesday January 4th, 2022");
+      assert.equal(entry.startTime, "10am");
+      assert.equal(entry.endTime, "3pm");
+      assert.equal(entry.description, "Added Udemy Course code repositories to my Github Account");
     });
   });
 });
