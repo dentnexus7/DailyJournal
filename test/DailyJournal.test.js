@@ -47,9 +47,9 @@ contract('DailyJournal', async([deployer, account2]) => {
       assert.equal(entry.lunch, "");
       assert.equal(entry.dinner, "");
       assert.equal(entry.meditation, "");
-      // assert.equal(entry.startTime, "5:45am");
-      // assert.equal(entry.endTime, "10am");
-      // assert.equal(entry.description, "DailyJournal has been deployed!");
+      assert.equal(entry.task.startTime, "5:45am");
+      assert.equal(entry.task.endTime, "10am");
+      assert.equal(entry.task.description, "DailyJournal has been deployed!");
     });
   });
 
@@ -57,7 +57,7 @@ contract('DailyJournal', async([deployer, account2]) => {
     let result, entryCount;
 
     before(async() => {
-      result = await contract.createEntry("Tuesday", "January 4th, 2022", "None", "None", "Sonic", "Meditation");
+      result = await contract.createEntry("Tuesday", "January 4th, 2022", "None", "None", "Sonic", "Meditation", "10am", "3pm", "Added Udemy Course code repositories to my Github Account");
       entryCount = await contract.entryCount();
     });
 
@@ -74,9 +74,9 @@ contract('DailyJournal', async([deployer, account2]) => {
         assert.equal(event.lunch, "None");
         assert.equal(event.dinner, "Sonic");
         assert.equal(event.meditation, "Meditation");
-        // assert.equal(event.startTime, "10am");
-        // assert.equal(event.endTime, "3pm");
-        // assert.equal(event.description, "Added Udemy Course code repositories to my Github Account");
+        assert.equal(event.startTime, "10am");
+        assert.equal(event.endTime, "3pm");
+        assert.equal(event.description, "Added Udemy Course code repositories to my Github Account");
       });
 
       it('failure', async() => {
@@ -89,11 +89,15 @@ contract('DailyJournal', async([deployer, account2]) => {
         // FAILURE: Date cannot be empty string
         await contract.createEntry("Test", "", "Test", "Test", "Test").should.be.rejected;
 
-        // // FAILURE: endTime cannot be empty string
-        // await contract.createEntry("Test", "Test", "", "Entry").should.be.rejected;
+        // FAILURE: startTime cannot be empty string
+        await contract.createEntry("Test", "Test", "Test", "Test", "Test", "Test", "", "Test", "Test").should.be.rejected;
 
-        // // FAILURE: description cannot be empty string
-        // await contract.createEntry("Test", "Test", "Test", "").should.be.rejected;
+
+        // FAILURE: endTime cannot be empty string
+        await contract.createEntry("Test", "Test", "Test", "Test", "Test", "Test", "Test", "", "Test").should.be.rejected;
+
+        // FAILURE: description cannot be empty string
+        await contract.createEntry("Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "").should.be.rejected;
       });
     });
 
@@ -106,9 +110,9 @@ contract('DailyJournal', async([deployer, account2]) => {
       assert.equal(entry.lunch, "None");
       assert.equal(entry.dinner, "Sonic");
       assert.equal(entry.meditation, "Meditation");
-      // assert.equal(entry.startTime, "10am");
-      // assert.equal(entry.endTime, "3pm");
-      // assert.equal(entry.description, "Added Udemy Course code repositories to my Github Account");
+      assert.equal(entry.task.startTime, "10am");
+      assert.equal(entry.task.endTime, "3pm");
+      assert.equal(entry.task.description, "Added Udemy Course code repositories to my Github Account");
     });
   });
 });

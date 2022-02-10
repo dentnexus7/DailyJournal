@@ -8,11 +8,11 @@ contract DailyJournal is Ownable {
   uint256 public entryCount = 0;
   mapping(uint => Entry) public entries;
 
-  // struct Task {
-  //   string startTime;
-  //   string endTime;
-  //   string[] description;
-  // }
+  struct Task {
+    string startTime;
+    string endTime;
+    string description;
+  }
 
   struct Entry {
     uint256 id;
@@ -22,7 +22,7 @@ contract DailyJournal is Ownable {
     string lunch;
     string dinner;
     string meditation;
-    //Task[] tasks;
+    Task task;
   }
 
   event EntryCreated(
@@ -32,8 +32,10 @@ contract DailyJournal is Ownable {
     string breakfast,
     string lunch,
     string dinner,
-    string meditation
-    //Task[] tasks
+    string meditation,
+    string startTime,
+    string endTime,
+    string description
   );
 
   constructor(
@@ -42,10 +44,12 @@ contract DailyJournal is Ownable {
     string memory _breakfast,
     string memory _lunch,
     string memory _dinner,
-    string memory _meditation
-    //Task[] memory _tasks
+    string memory _meditation,
+    string memory _startTime,
+    string memory _endTime,
+    string memory _description
   ) {
-    createEntry(_day, _date, _breakfast, _lunch, _dinner, _meditation);
+    createEntry(_day, _date, _breakfast, _lunch, _dinner, _meditation, _startTime, _endTime, _description);
   }
 
   function createEntry(
@@ -54,19 +58,25 @@ contract DailyJournal is Ownable {
     string memory _breakfast,
     string memory _lunch,
     string memory _dinner,
-    string memory _meditation
-    //Task[] memory _tasks
+    string memory _meditation,
+    string memory _startTime,
+    string memory _endTime,
+    string memory _description
   ) public onlyOwner() {
 
     require(bytes(_day).length > 0, 'DailyJournal: day is empty string');
     require(bytes(_date).length > 0, 'DailyJournal: date is empty string');
-    //require(bytes(_tasks.startTime).length > 0, 'DailyJournal: startTime is empty string');
-    //require(bytes(_tasks.endTime).length > 0, 'DailyJournal: endTime is empty string');
-    //require(bytes(_tasks._description).length > 0, 'DailyJournal: date is empty string');
+    require(bytes(_startTime).length > 0, 'DailyJournal: startTime is empty string');
+    require(bytes(_endTime).length > 0, 'DailyJournal: endTime is empty string');
+    require(bytes(_description).length > 0, 'DailyJournal: date is empty string');
 
     entryCount++;
-    entries[entryCount] = Entry(entryCount, _day, _date, _breakfast, _lunch, _dinner, _meditation);
-    emit EntryCreated(entryCount, _day, _date, _breakfast, _lunch, _dinner, _meditation);
+    
+    Task memory _task = Task(_startTime, _endTime, _description);
+
+    entries[entryCount] = Entry(entryCount, _day, _date, _breakfast, _lunch, _dinner, _meditation, _task);
+
+    emit EntryCreated(entryCount, _day, _date, _breakfast, _lunch, _dinner, _meditation, _startTime, _endTime, _description);
   }
 
 }

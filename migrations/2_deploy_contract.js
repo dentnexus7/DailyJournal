@@ -8,9 +8,9 @@ module.exports = function (deployer) {
     "",
     "",
     "",
-    ""
-    // "5:45am", 
-    // "10am", 
-    // "DailyJournal has been deployed!"
+    "",
+    "5:45am", 
+    "10am", 
+    "DailyJournal has been deployed!"
   );
 };

@@ -59,9 +59,9 @@ class App extends Component {
     this.setState({ loading: false });
   }
 
-  async createEntry(day, date, breakfast, lunch, dinner, meditation) { 
+  async createEntry(day, date, breakfast, lunch, dinner, meditation, startTime, endTime, description) { 
     this.setState({ loading: true });
-    this.state.dailyJournal.methods.createEntry(day, date, breakfast, lunch, dinner, meditation).send({ from: this.state.account })
+    this.state.dailyJournal.methods.createEntry(day, date, breakfast, lunch, dinner, meditation, startTime, endTime, description).send({ from: this.state.account })
       .once('receipt', (receipt) => {
         this.setState({ loading: false })
       });

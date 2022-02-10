@@ -13,6 +13,9 @@ class Main extends Component {
             <tr>
               <th scope="col">Day</th>
               <th scope="col">Date</th>
+              <th scope="col">startTime</th>
+              <th scope="col">endTime</th>
+              <th scope="col">Description</th>
               <th scope="col">Breakfast</th>
               <th scope="col">Lunch</th>
               <th scope="col">Dinner</th>
@@ -25,6 +28,9 @@ class Main extends Component {
                   <tr key={key}>
                     <td>{entry.day}</td>
                     <td>{entry.date}</td>
+                    <td>{entry.task.startTime}</td>
+                    <td>{entry.task.endTime}</td>
+                    <td>{entry.task.description}</td>
                     <td>{entry.breakfast}</td>
                     <td>{entry.lunch}</td>
                     <td>{entry.dinner}</td>
@@ -50,6 +56,36 @@ class Main extends Component {
                     ref={(date) => { this.date = date }}
                     className="form-control"
                     placeholder="Date"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="startTime"
+                    type="text"
+                    ref={(startTime) => { this.startTime = startTime }}
+                    className="form-control"
+                    placeholder="Start Time"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="endTime"
+                    type="text"
+                    ref={(endTime) => { this.endTime = endTime }}
+                    className="form-control"
+                    placeholder="End Time"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="description"
+                    type="text"
+                    ref={(description) => { this.description = description }}
+                    className="form-control"
+                    placeholder="Description"
                     required 
                   />
                 </td>
@@ -102,7 +138,10 @@ class Main extends Component {
                     const lunch = this.lunch.value;
                     const dinner = this.dinner.value;
                     const meditation = this.meditation.value;
-                    this.props.createEntry(day, date, breakfast, lunch, dinner, meditation);
+                    const startTime = this.startTime.value;
+                    const endTime = this.endTime.value;
+                    const description = this.description.value;
+                    this.props.createEntry(day, date, breakfast, lunch, dinner, meditation, startTime, endTime, description);
                   }}>
                     <button type="submit" className="btn btn-primary btn-block">Add</button>
                   </form>
