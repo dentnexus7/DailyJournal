@@ -8,7 +8,7 @@ import DailyJournal from '../abis/DailyJournal.json';
 
 class App extends Component {
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockchainData();
   }
@@ -40,11 +40,17 @@ class App extends Component {
     if(dailyJournalData) {
       const dailyJournal = new web3.eth.Contract(DailyJournal.abi, dailyJournalData.address);
       this.setState ({ dailyJournal });
-      console.log(this.state.dailyJournal);
+
+      const name = await dailyJournal.methods.name().call();
+      this.setState({ name });
+
       const entryCount = await dailyJournal.methods.entryCount().call();
-      console.log(entryCount);
       this.setState({ entryCount });
-      console.log(this.state.entryCount);
+
+      for(let i=1; i<=entryCount; i++) {
+        const entry = await dailyJournal.methods.entries(i).call();
+        this.setState({ entries: [...this.state.entries, entry] });
+      }
     } else {
       window.alert("DailyJournal contract not deployed to detected network");
     }
@@ -53,14 +59,26 @@ class App extends Component {
     this.setState({ loading: false });
   }
 
+  async createEntry(date, startTime, endTime, description) {
+    this.setState({ loading: true });
+    this.state.dailyJournal.methods.createEntry(date, startTime, endTime, description).send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+        this.setState({ loading: false })
+      });
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       account: '',
       loading: true,
       dailyJournal: null,
-      entryCount: ''
+      name: '',
+      entryCount: '',
+      entries: []
     }
+
+    this.createEntry = this.createEntry.bind(this);
   }
 
   render() {
@@ -68,7 +86,14 @@ class App extends Component {
     if(this.state.loading) {
       content = <p id="loader" className="text-center">Loading...</p>
     } else {
-      content = <Main dailyJournal={this.state.dailyJournal} />
+      content = 
+        <Main 
+          dailyJournal={this.state.dailyJournal}
+          name={this.state.name}
+          entryCount={this.state.entryCount}
+          entries={this.state.entries}
+          createEntry={this.createEntry}
+        />
     }
 
     return (
@@ -77,15 +102,7 @@ class App extends Component {
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
-              {/* <div className="content mr-auto ml-auto">
-                <br/>
-                <img src={logo} className="App-logo" alt="logo" />
-                <h1>Gregg's Starter Kit</h1>
-                <p>Edit <code>src/components/App.js</code> and save to reload.</p>
-              </div> */}
-
               {content}
-
             </main>
           </div>
         </div>
