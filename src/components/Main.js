@@ -11,34 +11,86 @@ class Main extends Component {
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
+              <th scope="col">Breakfast</th>
+              <th scope="col">Lunch</th>
+              <th scope="col">Dinner</th>
+              <th scope="col">Meditation</th>
               <th scope="col">Day</th>
               <th scope="col">Date</th>
               <th scope="col">startTime</th>
               <th scope="col">endTime</th>
               <th scope="col">Description</th>
-              <th scope="col">Breakfast</th>
-              <th scope="col">Lunch</th>
-              <th scope="col">Dinner</th>
-              <th scope="col">Meditation</th>
             </tr>
           </thead>
           <tbody>
               {this.props.entries.map((entry, key) => {
                 return (
                   <tr key={key}>
-                    <td>{entry.day}</td>
-                    <td>{entry.date}</td>
-                    <td>{entry.task.startTime}</td>
-                    <td>{entry.task.endTime}</td>
-                    <td>{entry.task.description}</td>
                     <td>{entry.breakfast}</td>
                     <td>{entry.lunch}</td>
                     <td>{entry.dinner}</td>
                     <td>{entry.meditation}</td>
+                    <td>{entry.day}</td>
+                    <td>{entry.date}</td>
+                  </tr>
+                )  
+              })}
+              {this.props.tasks.map((task, key) => {
+                return (
+                  <tr key={key}>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{task.startTime}</td>
+                    <td>{task.endTime}</td>
+                    <td>{task.description}</td>
                   </tr>
                 )  
               })}
               <tr>
+              <td>
+                  <input
+                    id="breakfast"
+                    type="text"
+                    ref={(breakfast) => { this.breakfast = breakfast }}
+                    className="form-control"
+                    placeholder="Breakfast"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="lunch"
+                    type="text"
+                    ref={(lunch) => { this.lunch = lunch }}
+                    className="form-control"
+                    placeholder="Lunch"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="dinner"
+                    type="text"
+                    ref={(dinner) => { this.dinner = dinner }}
+                    className="form-control"
+                    placeholder="Dinner"
+                    required 
+                  />
+                </td>
+                <td>
+                  <input
+                    id="meditation"
+                    type="text"
+                    ref={(meditation) => { this.meditation = meditation }}
+                    className="form-control"
+                    placeholder="Meditation"
+                    required 
+                  />
+                </td>
                 <td>
                   <input
                     id="day"
@@ -90,60 +142,28 @@ class Main extends Component {
                   />
                 </td>
                 <td>
-                  <input
-                    id="breakfast"
-                    type="text"
-                    ref={(breakfast) => { this.breakfast = breakfast }}
-                    className="form-control"
-                    placeholder="Breakfast"
-                    required 
-                  />
-                </td>
-                <td>
-                  <input
-                    id="lunch"
-                    type="text"
-                    ref={(lunch) => { this.lunch = lunch }}
-                    className="form-control"
-                    placeholder="Lunch"
-                    required 
-                  />
-                </td>
-                <td>
-                  <input
-                    id="dinner"
-                    type="text"
-                    ref={(dinner) => { this.dinner = dinner }}
-                    className="form-control"
-                    placeholder="Dinner"
-                    required 
-                  />
-                </td>
-                <td>
-                  <input
-                    id="meditation"
-                    type="text"
-                    ref={(meditation) => { this.meditation = meditation }}
-                    className="form-control"
-                    placeholder="Meditation"
-                    required 
-                  />
-                </td>
-                <td>
                   <form onSubmit={(event) => {
                     event.preventDefault();
-                    const day = this.day.value;
-                    const date = this.date.value;
                     const breakfast = this.breakfast.value;
                     const lunch = this.lunch.value;
                     const dinner = this.dinner.value;
                     const meditation = this.meditation.value;
+                    const day = this.day.value;
+                    const date = this.date.value;
+                    this.props.createEntry(breakfast, lunch, dinner, meditation, day, date);
+                  }}>
+                    <button type="submit" className="btn btn-primary btn-block">New Entry</button>
+                  </form>
+                  <br/>
+                  <form onSubmit={(event) => {
+                    event.preventDefault();
+                    const entryId = this.props.entryCount;
                     const startTime = this.startTime.value;
                     const endTime = this.endTime.value;
                     const description = this.description.value;
-                    this.props.createEntry(day, date, breakfast, lunch, dinner, meditation, startTime, endTime, description);
+                    this.props.createTask(entryId, startTime, endTime, description);
                   }}>
-                    <button type="submit" className="btn btn-primary btn-block">Add</button>
+                    <button type="submit" className="btn btn-primary btn-block">New Task</button>
                   </form>
                 </td>
               </tr>
