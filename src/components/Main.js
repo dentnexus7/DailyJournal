@@ -8,47 +8,76 @@ class Main extends Component {
         <div className="text-center">
           <h1>{this.props.name}</h1>
         </div>
-        <table className="table table-borderless text-muted text-center">
+        <table className="table table-borderless text-muted">
           <thead>
-            <tr>
-              <th scope="col">Breakfast</th>
-              <th scope="col">Lunch</th>
-              <th scope="col">Dinner</th>
-              <th scope="col">Meditation</th>
-              <th scope="col">Day</th>
-              <th scope="col">Date</th>
-              <th scope="col">Task #</th>
-              <th scope="col">startTime</th>
-              <th scope="col">endTime</th>
-              <th scope="col">Description</th>
-            </tr>
+            <th>Breakfast</th>
+            <th>Lunch</th>
+            <th>Dinner</th>
+            <th>Meditation</th>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Task #</th>
+            <th>startTime</th>
+            <th>endTime</th>
+            <th>description</th>
           </thead>
           <tbody>
-              {this.props.tasks.map((task, key) => {
-                return (
-                  <tr key={task.id}>
-
-                    {this.props.entries.map((entry, key) => {
-                      if (task.entryId === entry.id) {
+            {this.props.entries.map((entry, key) => {
+              return (
+                <tr>
+                  <td width="5%">{entry.breakfast}</td>
+                  <td width="5%">{entry.lunch}</td>
+                  <td width="5%">{entry.dinner}</td>
+                  <td width="5%">{entry.meditation}</td>
+                  <td width="5%">{entry.day}</td>
+                  <td width="7%">{entry.date}</td>
+                  <td width="3%">
+                    {this.props.tasks.map((task, key) => {
+                      if(entry.id === task.entryId) {
                         return (
-                          <>
-                            <td>{entry.breakfast}</td>
-                            <td>{entry.lunch}</td>
-                            <td>{entry.dinner}</td>
-                            <td>{entry.meditation}</td>
-                            <td>{entry.day}</td>
-                            <td>{entry.date}</td>
-                            <td>{task.id}</td>
-                            <td>{task.startTime}</td>
-                            <td>{task.endTime}</td>
-                            <td>{task.description}</td>
-                          </>
+                          <tr >
+                              {task.id}
+                          </tr>
                         )
                       }
                     })}
-                  </tr>
-                )
-              })}
+                  </td>
+                  <td width="5%">
+                    {this.props.tasks.map((task, key) => {
+                      if(entry.id === task.entryId) {
+                        return (
+                          <tr >
+                              {task.startTime}
+                          </tr>
+                        )
+                      }
+                    })}
+                  </td>
+                  <td width="5%">
+                    {this.props.tasks.map((task, key) => {
+                      if(entry.id === task.entryId) {
+                        return (
+                          <tr>
+                              {task.endTime}
+                          </tr>
+                        )
+                      }
+                    })}
+                  </td>
+                  <td>
+                    {this.props.tasks.map((task, key) => {
+                      if(entry.id === task.entryId) {
+                        return (
+                          <tr>
+                              {task.description}
+                          </tr>
+                        )
+                      }
+                    })}
+                  </td>
+                </tr>
+              )
+            })}
             <tr>
               <td>
                   <input
@@ -166,7 +195,7 @@ class Main extends Component {
                   </form>
                 </td>
               </tr>
-          </tbody>
+            </tbody>
         </table>
       </div>
     );
