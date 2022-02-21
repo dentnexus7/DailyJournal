@@ -16,37 +16,27 @@ class Main extends Component {
             <th>Meditation</th>
             <th>Day</th>
             <th>Date</th>
-            <th>Task #</th>
-            <th>startTime</th>
-            <th>endTime</th>
-            <th>description</th>
+            <th></th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Description</th>
           </thead>
           <tbody>
             {this.props.entries.map((entry, key) => {
               return (
-                <tr>
+                <tr key={key}>
                   <td width="5%">{entry.breakfast}</td>
                   <td width="5%">{entry.lunch}</td>
                   <td width="5%">{entry.dinner}</td>
                   <td width="5%">{entry.meditation}</td>
                   <td width="5%">{entry.day}</td>
                   <td width="7%">{entry.date}</td>
-                  <td width="3%">
-                    {this.props.tasks.map((task, key) => {
-                      if(entry.id === task.entryId) {
-                        return (
-                          <tr >
-                              {task.id}
-                          </tr>
-                        )
-                      }
-                    })}
-                  </td>
+                  <td></td>
                   <td width="5%">
                     {this.props.tasks.map((task, key) => {
                       if(entry.id === task.entryId) {
                         return (
-                          <tr >
+                          <tr key={key}>
                               {task.startTime}
                           </tr>
                         )
@@ -57,7 +47,7 @@ class Main extends Component {
                     {this.props.tasks.map((task, key) => {
                       if(entry.id === task.entryId) {
                         return (
-                          <tr>
+                          <tr key={key}>
                               {task.endTime}
                           </tr>
                         )
@@ -68,7 +58,7 @@ class Main extends Component {
                     {this.props.tasks.map((task, key) => {
                       if(entry.id === task.entryId) {
                         return (
-                          <tr>
+                          <tr key={key}>
                               {task.description}
                           </tr>
                         )
@@ -139,6 +129,20 @@ class Main extends Component {
                     required 
                   />
                 </td>
+                <td width="5%">
+                  <form onSubmit={(event) => {
+                      event.preventDefault();
+                      const breakfast = this.breakfast.value;
+                      const lunch = this.lunch.value;
+                      const dinner = this.dinner.value;
+                      const meditation = this.meditation.value;
+                      const day = this.day.value;
+                      const date = this.date.value;
+                      this.props.createEntry(breakfast, lunch, dinner, meditation, day, date);
+                    }}>
+                      <button type="submit" className="btn btn-primary btn-block">New Entry</button>
+                  </form>
+                </td>
                 <td>
                   <input
                     id="startTime"
@@ -171,27 +175,14 @@ class Main extends Component {
                 </td>
                 <td>
                   <form onSubmit={(event) => {
-                    event.preventDefault();
-                    const breakfast = this.breakfast.value;
-                    const lunch = this.lunch.value;
-                    const dinner = this.dinner.value;
-                    const meditation = this.meditation.value;
-                    const day = this.day.value;
-                    const date = this.date.value;
-                    this.props.createEntry(breakfast, lunch, dinner, meditation, day, date);
-                  }}>
-                    <button type="submit" className="btn btn-primary btn-block">New Entry</button>
-                  </form>
-                  <br/>
-                  <form onSubmit={(event) => {
-                    event.preventDefault();
-                    const entryId = this.props.entryCount;
-                    const startTime = this.startTime.value;
-                    const endTime = this.endTime.value;
-                    const description = this.description.value;
-                    this.props.createTask(entryId, startTime, endTime, description);
-                  }}>
-                    <button type="submit" className="btn btn-primary btn-block">New Task</button>
+                      event.preventDefault();
+                      const entryId = this.props.entryCount;
+                      const startTime = this.startTime.value;
+                      const endTime = this.endTime.value;
+                      const description = this.description.value;
+                      this.props.createTask(entryId, startTime, endTime, description);
+                    }}>
+                      <button type="submit" className="btn btn-primary btn-block">New Task</button>
                   </form>
                 </td>
               </tr>
