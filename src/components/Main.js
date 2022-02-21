@@ -17,40 +17,39 @@ class Main extends Component {
               <th scope="col">Meditation</th>
               <th scope="col">Day</th>
               <th scope="col">Date</th>
+              <th scope="col">Task #</th>
               <th scope="col">startTime</th>
               <th scope="col">endTime</th>
               <th scope="col">Description</th>
             </tr>
           </thead>
           <tbody>
-              {this.props.entries.map((entry, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{entry.breakfast}</td>
-                    <td>{entry.lunch}</td>
-                    <td>{entry.dinner}</td>
-                    <td>{entry.meditation}</td>
-                    <td>{entry.day}</td>
-                    <td>{entry.date}</td>
-                  </tr>
-                )  
-              })}
               {this.props.tasks.map((task, key) => {
                 return (
-                  <tr key={key}>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{task.startTime}</td>
-                    <td>{task.endTime}</td>
-                    <td>{task.description}</td>
+                  <tr key={task.id}>
+
+                    {this.props.entries.map((entry, key) => {
+                      if (task.entryId === entry.id) {
+                        return (
+                          <>
+                            <td>{entry.breakfast}</td>
+                            <td>{entry.lunch}</td>
+                            <td>{entry.dinner}</td>
+                            <td>{entry.meditation}</td>
+                            <td>{entry.day}</td>
+                            <td>{entry.date}</td>
+                            <td>{task.id}</td>
+                            <td>{task.startTime}</td>
+                            <td>{task.endTime}</td>
+                            <td>{task.description}</td>
+                          </>
+                        )
+                      }
+                    })}
                   </tr>
-                )  
+                )
               })}
-              <tr>
+            <tr>
               <td>
                   <input
                     id="breakfast"
