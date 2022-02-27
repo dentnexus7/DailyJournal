@@ -28,6 +28,15 @@ The idea behind this project is to exemplify the fundamental skills that are nec
 
 ![Build Check](https://img.shields.io/github/checks-status/dentnexus7/DailyJournal/main)
 
+The following are potential improvements that could be made:
+
+  1. Delete Entry and Task functionality on the Smart Contract.
+  2. Better styling for Front-end.
+  3. Using IPFS as a decentralized data storage rather than have all this data on the blockchain.
+  4. Creating a script to automatically read from an excel spreadsheet and create entries and tasks.
+  5. Adding more content.
+  6. Making the description field of a Task struct an array rather than a string.
+
 ## Code Style
 
 Standard.
