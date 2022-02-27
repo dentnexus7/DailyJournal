@@ -4,8 +4,7 @@ Daily Journal is an implementation of the list of tasks completed on a daily bas
 
 ## Badges
 
-![GitHub contributors](https://img.shields.io/github/contributors/scottydocs/README-template.md)
-![NPM Package](https://img.shields.io/npm/v/@openzeppelin/contracts.svg)]
+![GitHub contributors](https://img.shields.io/github/contributors/dentnexus7/DailyJournal)
 
 ## Motivation
 
@@ -27,7 +26,7 @@ The idea behind this project is to exemplify the fundamental skills that are nec
 
 ## Build Status
 
-![Build Check](https://img.shields.io/github/checks-status/dentnexus7/DailyJournal/5831f053ca102cc59b232d34a6e841253bf02b2a)
+![Build Check](https://img.shields.io/github/checks-status/dentnexus7/DailyJournal/main)
 
 ## Code Style
 
@@ -59,11 +58,17 @@ Standard.
 ## Prerequisites
 
 NPM / NodeJS
+
 Truffle
+
 Solidity
+
 Ganache
+
 Metamask account
+
 Infura account
+
 Mocha / Chai
 
 ## Installation
@@ -76,7 +81,7 @@ Enter the following commands into the terminal:
 
 Ensure Ganache is open via quickstart.
 
-`truffle migrate --reset
+`truffle migrate --reset`
 
 Ensure you've imported the first account from your Ganache accounts to your Metmask.
 
