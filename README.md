@@ -2,6 +2,8 @@
 
 Daily Journal is an implementation of the list of tasks completed on a daily basis. This project exemplifies the fundamental skills needed to create a Full-stack Blockchain dApplication.
 
+This dApplication is deployed on the Rinkeby TestNet: [0x34bc5a46F3Cb4452A0aE15e22B8C6F3F45019F23](https://rinkeby.etherscan.io/address/0x34bc5a46f3cb4452a0ae15e22b8c6f3f45019f23)
+
 ## Badges
 
 ![GitHub contributors](https://img.shields.io/github/contributors/dentnexus7/DailyJournal)
